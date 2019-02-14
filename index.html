@@ -232,6 +232,128 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/14/启动虚拟机黑屏解决办法/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="junior">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gongsheng.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="junior的博客园">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/14/启动虚拟机黑屏解决办法/" itemprop="url">vmware workstation pro 14 启动虚拟机黑屏解决办法'</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-14T20:05:39+08:00">
+                2019-02-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>  这段时间换了公司的新电脑，忙着把以前旧电脑的资料、操作系统（当然，还有游戏）都转移到新电脑上。以前一直用的win7操作系统，这下新电脑都用的win10的了，花了点时间长适应过来。今天工作需要在新电脑上打开了熟悉的vmware workstation pro 14，打算创建一台虚拟机跑一下测试应用，结果不知道回事的，虚拟机启动了很久一直是黑屏状态。大概就是下面这个样子。</p>
+<p><img src="https://i.imgur.com/31GA5nq.png" alt=""></p>
+<p>第一反应怀疑镜像是不是有问题，于是换了其他几个系统镜像，发现也是一样黑屏，又开始担心是不是win10的兼容性问题。最后去网上搜了一下解决方案，发现不是我想的那样，只需要以<br><strong>管理员权限</strong>打开CMD，执行<code>netsh winsock reset</code>命令，然后<strong>重新电脑</strong>就解决了！！原因嘛……似乎是wegame导致的网络问题……腾讯害人啊</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/29/fio踩坑/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -670,7 +792,7 @@ KEYSTONE_TOKEN_FORMAT=UUID
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -683,7 +805,7 @@ KEYSTONE_TOKEN_FORMAT=UUID
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -720,7 +842,7 @@ KEYSTONE_TOKEN_FORMAT=UUID
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
