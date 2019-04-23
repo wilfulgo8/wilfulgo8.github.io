@@ -232,6 +232,153 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/23/for+in语句踩坑/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="junior">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gongsheng.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="junior的博客园">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/23/for+in语句踩坑/" itemprop="url">为什么js的for in语句有时在遍历数组时,会出现不存在的数组成员?</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-23T21:32:57+08:00">
+                2019-04-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>我们都知道,JavaScript语法中的<a href="http://www.w3school.com.cn/js/js_loop_for_in.asp" target="_blank" rel="noopener">for…in 语句用于遍历数组或者对象的属性（对数组或者对象的属性进行循环操作）</a>。具有相似功能的语句还有forEach()函数、for..of语句（es6特性）以及经典的的普通for循环：</p>
+<p><strong>for…in 语句：</strong><br>`var arr = [1,2,0,3,9];<br>for (var index in arr){<br>    console.log(arr[index]);<br>    console.log(index);</p>
+<p>}`</p>
+<p><strong>forEach()函数：</strong></p>
+<p>`arr.forEach(function(value,i){</p>
+<p>　　console.log(‘forEach遍历:’+i+’–’+value);<br>})<br>`</p>
+<p><strong>for…of语句：</strong><br>`for( let i of arr){<br>    console.log(i);</p>
+<p>}`</p>
+<p><strong>普通for循环：</strong></p>
+<blockquote>
+</blockquote>
+<p> for ( var i = 0; i &lt;arr.length; i++){<br>    console.log(arr[i]);<br>}</p>
+<p>潜意识里一直认为这几种遍历方式都差不多，在心里把它们划等号了。<br>最近做项目遇到了这样的情况，在使用for…in语句遍历一个数组时，不知什么原因，总是会多出一个成因。大概就是如下这样非常简单的的一段代码里：<br>var tableHead = [<br>    {column: “DEPO_NAME”, name: “企业名称”}，<br>    {column: “EST_DATE”, name: “企业成立日期”}<br>];<br>for(var i in tableHead){<br>  var headName = tableHead[i].name;<br>  console.log(headName);<br>}</p>
+<p>按理说，这个循环体最多循环两次就结束了，但是在测试过程中，这个循环体实际上执行了三次。<br>为了弄清楚是什么原因，在浏览器中下断点来查看什么情况。当第三次进入循环体时，注意到如下图所示的情况：</p>
+<p><img src="https://i.imgur.com/cw93P7k.png" alt=""></p>
+<p>what？？ i=”remove”？？！！</p>
+<p>我寻思这数组里也没有remove这个成员呀！<br>无奈之下对这个问题进行了查找，在<a href="https://www.cnblogs.com/jkj-jim/p/6389572.html" target="_blank" rel="noopener">别人博客</a>里找到了答案。</p>
+<blockquote>
+<p>for…in 并不能够保证返回的是按一定顺序的索引，但是它会<strong>返回所有可枚举属性</strong>，包括继承属性。</p>
+</blockquote>
+<blockquote>
+<p>给原型添加属性之后，默认情况下枚举，会把原型属性一并输出，如下所示。由于它总是会访问该对象的原型,看下原型上是否有属性,这在无意中就给遍历增加了额外的压力。<br>function fun4(){<br>    var a=[1,2,3,4,5];<br>    Array.prototype.age=13;<br>    for(var i in a){<br>        console.log(“a[“+i+”]: “+a[i]);<br>    }<br>}<br>//outuput:<br>//a[0]: 1<br>//a[1]: 2<br>//a[2]: 3<br>//a[3]: 4<br>//a[4]: 5<br>//a[age]: 13</p>
+</blockquote>
+<p>明白这一点之后，立刻回到项目中使用浏览器再调试一下。果不其然，我们的数组的原型属性中包含了“remove”字段：<br><img src="https://i.imgur.com/ooBgEXP.png" alt=""></p>
+<p>到此，问题有了答案，很有可能的是项目采用的某个前端框架对Array对象进行了扩展，使得remove这个扩展属性被for…in迭代了出来。<br>另外，根据网上其他的资料介绍，for..in得到的index通常是字符串型，而普通for循环的索引是数值型的，看来以后遍历数组还是采用最原始的普通for最保险。</p>
+<blockquote>
+<p>参考资料：<a href="https://www.cnblogs.com/jkj-jim/p/6389572.html" target="_blank" rel="noopener">https://www.cnblogs.com/jkj-jim/p/6389572.html</a></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/14/启动虚拟机黑屏解决办法/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -792,7 +939,7 @@ KEYSTONE_TOKEN_FORMAT=UUID
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -805,7 +952,7 @@ KEYSTONE_TOKEN_FORMAT=UUID
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
